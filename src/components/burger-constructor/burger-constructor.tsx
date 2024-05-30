@@ -28,15 +28,13 @@ export const BurgerConstructor: FC = () => {
   const handlePlaceOrder = useCallback(
     (ingredientIds: string[]) => {
       dispatch(orderBurger(ingredientIds))
+        .unwrap() // убираем блок catch, так как createAsyncThunk сам обрабатывает ошибки
         .then(() => {
           dispatch(resetConstructor());
           dispatch(getOrderByNumber(orders[0]?.number));
-        })
-        .catch((error) => {
-          console.error(error);
         });
     },
-    [dispatch]
+    [dispatch, orders]
   );
 
   const onOrderClick = async () => {
