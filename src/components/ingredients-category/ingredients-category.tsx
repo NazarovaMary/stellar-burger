@@ -3,17 +3,15 @@ import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 
+import { useSelector } from '../../services/store';
+
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
-  /** TODO: взять переменную из стора */
-  const burgerConstructor = {
-    bun: {
-      _id: ''
-    },
-    ingredients: []
-  };
+  const burgerConstructor = useSelector(
+    (state) => state.burger.constructorItems
+  );
 
   const ingredientsCounters = useMemo(() => {
     const { bun, ingredients } = burgerConstructor;
@@ -26,6 +24,19 @@ export const IngredientsCategory = forwardRef<
     return counters;
   }, [burgerConstructor]);
 
+  const getDataCyValue = (title: string) => {
+    switch (title) {
+      case 'Булки':
+        return 'bun';
+      case 'Начинки':
+        return 'fillings';
+      case 'Соусы':
+        return 'sauces';
+      default:
+        return 'bun';
+    }
+  };
+
   return (
     <IngredientsCategoryUI
       title={title}
@@ -33,6 +44,7 @@ export const IngredientsCategory = forwardRef<
       ingredients={ingredients}
       ingredientsCounters={ingredientsCounters}
       ref={ref}
+      getDataCyValue={getDataCyValue}
     />
   );
 });
