@@ -1,4 +1,15 @@
-/// <reference types="cypress" />
+Cypress.Commands.add('getModal', () => cy.get('[data-cy="modal"]'));
+
+Cypress.Commands.add('getConstructorBun', () =>
+  cy.get('[data-cy="constructor-bun"]')
+);
+
+Cypress.Commands.add('getConstructorFilling', () =>
+  cy.get('[data-cy="constructor-filling"]')
+);
+
+Cypress.Commands.add('getIngredient', () => cy.get('[data-cy="ingredient"]'));
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
