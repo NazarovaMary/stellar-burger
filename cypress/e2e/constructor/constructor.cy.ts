@@ -1,54 +1,3 @@
-describe('функция добавления ингредиента', () => {
-  it('ингредиенты при клике на "Добавить" отображаются в конструкторе в нужном количестве', () => {
-    cy.get('[data-cy="bun"]')
-      .first()
-      .children()
-      .contains('Добавить')
-      .click({ force: true });
-    cy.getConstructorBun().should('exist');
-    cy.get('[data-cy="sauces"]')
-      .first()
-      .children()
-      .contains('Добавить')
-      .click({ force: true });
-    cy.get('[data-cy="fillings"]')
-      .first()
-      .children()
-      .contains('Добавить')
-      .click({ force: true });
-    cy.getConstructorFilling().should('exist');
-
-    cy.getConstructorBun().should('have.length', 1);
-    cy.getConstructorFilling().should('have.length', 2);
-  });
-});
-
-describe('проверка работы модальных окон', () => {
-  it('модальное окно открывается при клике на ингредиент', () => {
-    cy.getIngredient().first().click({ force: true });
-    cy.getModal().should('exist');
-  });
-
-  it('модальное окно закрывается при клике на крестик', () => {
-    cy.getIngredient().first().click({ force: true });
-    cy.get('[data-cy="close-modal"]').click({ force: true });
-    cy.getModal().should('not.exist');
-  });
-
-  it('модальное окно открывается с определенным ингредиентом', () => {
-    cy.getIngredient()
-      .contains('Краторная булка N-200i')
-      .click({ force: true });
-    cy.getModal().contains('Краторная булка N-200i').should('exist');
-  });
-
-  it('модальное окно закрывается при клике на область с оверлей', () => {
-    cy.getIngredient().first().click({ force: true });
-    cy.get('[data-cy="modal-overlay"]').first().click({ force: true });
-    cy.getModal().should('not.exist');
-  });
-});
-
 describe('тесты для react приложения Stellar Burgers', () => {
   beforeEach(() => {
     cy.intercept('GET', '/api/ingredients', {
@@ -67,6 +16,57 @@ describe('тесты для react приложения Stellar Burgers', () => {
     cy.clearCookies();
     cy.window().then((win) => {
       win.localStorage.clear();
+    });
+  });
+
+  describe('проверка работы модальных окон', () => {
+    it('модальное окно открывается при клике на ингредиент', () => {
+      cy.getIngredient().first().click({ force: true });
+      cy.getModal().should('exist');
+    });
+
+    it('модальное окно закрывается при клике на крестик', () => {
+      cy.getIngredient().first().click({ force: true });
+      cy.get('[data-cy="close-modal"]').click({ force: true });
+      cy.getModal().should('not.exist');
+    });
+
+    it('модальное окно открывается с определенным ингредиентом', () => {
+      cy.getIngredient()
+        .contains('Краторная булка N-200i')
+        .click({ force: true });
+      cy.getModal().contains('Краторная булка N-200i').should('exist');
+    });
+
+    it('модальное окно закрывается при клике на область с оверлей', () => {
+      cy.getIngredient().first().click({ force: true });
+      cy.get('[data-cy="close-modal"]').first().click({ force: true });
+      cy.getModal().should('not.exist');
+    });
+  });
+
+  describe('функция добавления ингредиента', () => {
+    it('ингредиенты при клике на "Добавить" отображаются в конструкторе в нужном количестве', () => {
+      cy.get('[data-cy="bun"]')
+        .first()
+        .children()
+        .contains('Добавить')
+        .click({ force: true });
+      cy.getConstructorBun().should('exist');
+      cy.get('[data-cy="sauces"]')
+        .first()
+        .children()
+        .contains('Добавить')
+        .click({ force: true });
+      cy.get('[data-cy="fillings"]')
+        .first()
+        .children()
+        .contains('Добавить')
+        .click({ force: true });
+      cy.getConstructorFilling().should('exist');
+
+      cy.getConstructorBun().should('have.length', 1);
+      cy.getConstructorFilling().should('have.length', 2);
     });
   });
 
